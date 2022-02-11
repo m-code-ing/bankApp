@@ -1,4 +1,5 @@
 import {
+  IconButton,
   Paper,
   Table,
   TableBody,
@@ -8,8 +9,14 @@ import {
   TableRow,
 } from "@mui/material";
 
+import DeleteIcon from "@mui/icons-material/Delete";
+
 type ClientListProps = {
   clientList: any[];
+};
+
+const deleteClient = (id: number) => {
+  console.log("delete client: ", id);
 };
 
 const ClientList = (props: ClientListProps) => {
@@ -41,6 +48,14 @@ const ClientList = (props: ClientListProps) => {
               <TableCell align="right">{row.card_number}</TableCell>
               <TableCell align="right">{row.balance}</TableCell>
               <TableCell align="right">{row.isActive}</TableCell>
+              <TableCell align="right">
+                <IconButton
+                  aria-label="delete"
+                  color="warning"
+                  onClick={() => deleteClient(row.id)}>
+                  <DeleteIcon />
+                </IconButton>
+              </TableCell>
             </TableRow>
           ))}
         </TableBody>
