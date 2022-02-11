@@ -8,10 +8,12 @@ import { Button, Grid } from "@mui/material";
 import axios from "axios";
 import { useState } from "react";
 import BankList from "./components/BankList";
+import AddClientForm from "./components/AddClientForm";
 
 const App = () => {
   const [clientList, setClientList] = useState<any[]>([]);
   const [bankList, setBankList] = useState<any[]>([]);
+  const [openForm, setOpenForm] = useState(false);
 
   const fetchClients = () => {
     // GET client list
@@ -58,21 +60,35 @@ const App = () => {
           </Button>
         </Grid>
         <Grid item my={6} mx={2}>
+          <Button variant="contained" onClick={() => setOpenForm(!openForm)}>
+            Add Client
+          </Button>
+        </Grid>
+        <Grid item my={6} mx={2}>
           <Button variant="contained" onClick={() => fetchBankers()}>
             Get Bankers
           </Button>
         </Grid>
       </Grid>
       <Grid sm={10} container justifyContent="center">
-        <Grid item my={2} border={1}>
-          <ClientList
-            clientList={clientList}
-            updateClientList={updateClientList}></ClientList>
-        </Grid>
+        {openForm && (
+          <Grid item my={2}>
+            <AddClientForm></AddClientForm>
+          </Grid>
+        )}
+        {clientList.length ? (
+          <Grid item my={2} border={1}>
+            <ClientList
+              clientList={clientList}
+              updateClientList={updateClientList}></ClientList>
+          </Grid>
+        ) : null}
 
-        <Grid item my={2} border={1}>
-          <BankList bankList={bankList}></BankList>
-        </Grid>
+        {clientList.length ? (
+          <Grid item my={2} border={1}>
+            <BankList bankList={bankList}></BankList>
+          </Grid>
+        ) : null}
       </Grid>
     </Grid>
   );
