@@ -7,9 +7,11 @@ import { Button, Grid } from "@mui/material";
 // Other imports
 import axios from "axios";
 import { useState } from "react";
+import BankList from "./components/BankList";
 
 const App = () => {
   const [clientList, setClientList] = useState<any[]>([]);
+  const [bankList, setBankList] = useState<any[]>([]);
 
   const fetchClients = () => {
     // GET client list
@@ -19,6 +21,17 @@ const App = () => {
     }).then(function (response) {
       const clientList = response.data;
       setClientList(clientList);
+    });
+  };
+
+  const fetchBankers = () => {
+    // GET client list
+    axios({
+      method: "get",
+      url: "http://localhost:8080/api/banks",
+    }).then(function (response) {
+      const bankList = response.data;
+      setBankList(bankList);
     });
   };
 
@@ -36,16 +49,30 @@ const App = () => {
       my={3}
       justifyContent="center"
       alignItems="center"
+      alignContent="center"
       textAlign="center">
-      <Grid item my={6}>
-        <Button variant="contained" onClick={() => fetchClients()}>
-          Get Clients
-        </Button>
+      <Grid container justifyContent="center">
+        <Grid item my={6} mx={2}>
+          <Button variant="contained" onClick={() => fetchClients()}>
+            Get Clients
+          </Button>
+        </Grid>
+        <Grid item my={6} mx={2}>
+          <Button variant="contained" onClick={() => fetchBankers()}>
+            Get Bankers
+          </Button>
+        </Grid>
       </Grid>
-      <Grid item>
-        <ClientList
-          clientList={clientList}
-          updateClientList={updateClientList}></ClientList>
+      <Grid sm={10} container justifyContent="center">
+        <Grid item my={2} border={1}>
+          <ClientList
+            clientList={clientList}
+            updateClientList={updateClientList}></ClientList>
+        </Grid>
+
+        <Grid item my={2} border={1}>
+          <BankList bankList={bankList}></BankList>
+        </Grid>
       </Grid>
     </Grid>
   );
