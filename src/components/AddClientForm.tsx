@@ -1,13 +1,38 @@
 import Box from "@mui/material/Box";
 import TextField from "@mui/material/TextField";
-import { Grid } from "@mui/material";
+import { Button, Grid } from "@mui/material";
 import { useState } from "react";
+import axios from "axios";
 
 const AddClientForm = () => {
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
   const [cardNumber, setCardNumber] = useState("");
+
+  const handleSubmit = () => {
+    const client = {
+      firstName,
+      lastName,
+      email,
+      cardNumber,
+    };
+    axios({
+      method: "POST",
+      url: `http://localhost:8080/api/client`,
+      data: client,
+    })
+      .then(function (response) {
+        if (response.data.msg === "Success") {
+          alert("Client added successfully");
+        } else {
+          alert(response.data.msg);
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
 
   const handleChange = (e: React.ChangeEvent, fieldName: any) => {
     let value = (e.target as HTMLInputElement).value;
@@ -74,6 +99,12 @@ const AddClientForm = () => {
           label="CardNumber"
           onChange={(e) => handleChange(e, "cardNumber")}
         />
+      </Grid>
+
+      <Grid item my={1}>
+        <Button variant="contained" onClick={handleSubmit}>
+          Submit
+        </Button>
       </Grid>
     </Box>
   );
