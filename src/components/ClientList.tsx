@@ -8,18 +8,24 @@ import {
   TableHead,
   TableRow,
 } from "@mui/material";
-
 import DeleteIcon from "@mui/icons-material/Delete";
+
+import axios from "axios";
 
 type ClientListProps = {
   clientList: any[];
-};
-
-const deleteClient = (id: number) => {
-  console.log("delete client: ", id);
+  updateClientList: (id: number) => void;
 };
 
 const ClientList = (props: ClientListProps) => {
+  const deleteClient = (id: number) => {
+    axios({
+      method: "DELETE",
+      url: `http://localhost:8080/api/client/${id}`,
+    }).then(function (response) {
+      props.updateClientList(id);
+    });
+  };
   return (
     <TableContainer component={Paper}>
       <Table sx={{ minWidth: 650 }} aria-label="simple table">

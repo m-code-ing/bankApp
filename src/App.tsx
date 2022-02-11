@@ -9,7 +9,7 @@ import axios from "axios";
 import { useState } from "react";
 
 const App = () => {
-  const [clientList, setClientList] = useState([]);
+  const [clientList, setClientList] = useState<any[]>([]);
 
   const fetchClients = () => {
     // GET client list
@@ -21,6 +21,14 @@ const App = () => {
       setClientList(clientList);
     });
   };
+
+  const updateClientList = (id: number) => {
+    const updatedClientList = [...clientList].filter(
+      (client) => client.id !== id
+    );
+    setClientList(updatedClientList);
+  };
+
   return (
     <Grid
       container
@@ -35,7 +43,9 @@ const App = () => {
         </Button>
       </Grid>
       <Grid item>
-        <ClientList clientList={clientList}></ClientList>
+        <ClientList
+          clientList={clientList}
+          updateClientList={updateClientList}></ClientList>
       </Grid>
     </Grid>
   );
