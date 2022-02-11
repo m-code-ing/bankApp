@@ -19,6 +19,10 @@ type BankListProps = {
 };
 
 const BankList = (props: BankListProps) => {
+  if (!props.bankList.length) {
+    console.log(props.bankList.length);
+    return null;
+  }
   return (
     <TableContainer component={Paper}>
       <Grid container justifyContent="center">

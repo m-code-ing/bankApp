@@ -28,6 +28,10 @@ const ClientList = (props: ClientListProps) => {
       props.updateClientList(id);
     });
   };
+  if (!props.clientList.length) {
+    console.log(props.clientList.length);
+    return null;
+  }
   return (
     <TableContainer component={Paper}>
       <Grid container justifyContent="center">
